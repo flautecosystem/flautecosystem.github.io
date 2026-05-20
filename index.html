@@ -2,9 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>FLAUT // DIGITAL INFRASTRUCTURE — AI-экосистема</title>
-    <!-- Tailwind + FontAwesome + GSAP + Lenis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>FLAUT // DIGITAL INFRASTRUCTURE — AI-экосистема Telegram</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -12,36 +11,64 @@
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: #020617; font-family: 'Inter', 'Space Grotesk', sans-serif; overflow-x: hidden; color: #e2e8f0; }
         .glass-card { background: rgba(2, 15, 30, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(0, 255, 200, 0.3); border-radius: 28px; }
         .card-neon { background: linear-gradient(145deg, #0a1028, #030617); border: 1px solid rgba(0, 255, 200, 0.25); border-radius: 1.75rem; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
-        .card-neon:hover { border-color: #0ff; box-shadow: 0 0 28px rgba(0, 255, 200, 0.25); transform: translateY(-6px) scale(1.01); }
+        .card-neon:active { transform: scale(0.98); }
         .active-nav { color: #0ff; text-shadow: 0 0 8px #0ff; border-bottom: 2px solid #0ff; }
         .nav-link { transition: all 0.2s; font-weight: 500; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #0ff; border-radius: 10px; }
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.35; pointer-events: none; }
-        .stat-mint { background: rgba(0, 255, 200, 0.08); border-left: 3px solid #0ff; }
-        .log-entry { font-family: monospace; font-size: 0.7rem; border-left: 2px solid #2dd4bf; padding-left: 0.75rem; margin-top: 0.6rem; }
-        .badge-eco { background: rgba(0, 255, 200, 0.15); border-radius: 40px; padding: 0.2rem 0.8rem; font-size: 0.7rem; backdrop-filter: blur(4px); }
+        .stat-mint { background: rgba(0, 255, 200, 0.08); border-left: 3px solid #0ff; transition: all 0.2s; }
+        .stat-mint:active { background: rgba(0, 255, 200, 0.15); transform: translateX(4px); }
+        .log-entry { font-family: monospace; font-size: 0.65rem; border-left: 2px solid #2dd4bf; padding-left: 0.75rem; margin-top: 0.5rem; word-break: break-word; }
+        .badge-eco { background: rgba(0, 255, 200, 0.15); border-radius: 40px; padding: 0.25rem 0.75rem; font-size: 0.7rem; backdrop-filter: blur(4px); white-space: nowrap; }
         .gradient-text { background: linear-gradient(135deg, #2dd4bf, #06b6d4, #10b981); background-clip: text; -webkit-background-clip: text; color: transparent; }
         .glow-text { text-shadow: 0 0 12px rgba(45,212,191,0.5), 0 0 4px rgba(6,182,212,0.3); }
         .floating { animation: float 6s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        .typewriter-cursor { display: inline-block; width: 3px; height: 1.2em; background: #2dd4bf; margin-left: 4px; animation: blink 1s infinite; vertical-align: middle; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        .typewriter-cursor { display: inline-block; width: 2px; height: 1em; background: #2dd4bf; margin-left: 4px; animation: blink 1s infinite; vertical-align: middle; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .telegram-link { background: rgba(0, 255, 200, 0.12); border: 1px solid rgba(0, 255, 200, 0.4); transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .telegram-link:active { background: rgba(0, 255, 200, 0.3); transform: scale(0.96); }
+        /* Мобильная оптимизация */
+        @media (max-width: 768px) {
+            .glass-card, .card-neon { border-radius: 1.25rem; }
+            h1 { font-size: 2.2rem !important; line-height: 1.2 !important; letter-spacing: -0.02em !important; }
+            .stat-mint { padding: 0.6rem; }
+            .log-entry { font-size: 0.55rem; }
+            .badge-eco { font-size: 0.6rem; padding: 0.2rem 0.6rem; white-space: nowrap; }
+            .telegram-link { font-size: 0.65rem; padding: 0.3rem 0.7rem; white-space: nowrap; }
+            .mobile-menu-btn { display: block; }
+            .desktop-nav { display: none; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem !important; }
+            .badge-eco { font-size: 0.55rem; padding: 0.15rem 0.5rem; }
+            .telegram-link { font-size: 0.6rem; padding: 0.25rem 0.6rem; gap: 4px; }
+            .stat-mint .text-2xl { font-size: 1.2rem !important; }
+        }
+        @media (min-width: 769px) {
+            .mobile-menu-btn { display: none !important; }
+            .desktop-nav { display: flex !important; }
+        }
+        .mobile-nav-open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: rgba(2,6,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid #0ff; padding: 1rem; gap: 1rem; z-index: 100; }
+        .mobile-nav-link { padding: 0.75rem; text-align: center; font-size: 1rem; border-radius: 12px; transition: all 0.2s; }
+        .mobile-nav-link:active { background: rgba(0,255,200,0.1); }
     </style>
 </head>
 <body class="bg-[#020617]">
 
 <canvas id="cyberCanvas"></canvas>
 
-<header class="fixed top-0 w-full z-50 py-3 px-5 md:px-10" style="background: rgba(2,6,23,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,255,200,0.4);">
-    <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-3">
-        <div class="text-2xl md:text-3xl font-black tracking-tighter"><span class="bg-gradient-to-r from-cyan-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent">FLAUT//INFRA</span><span class="text-xs ml-1 text-cyan-400">[ai.ecosystem]</span></div>
-        <nav class="flex gap-4 text-sm md:text-base font-medium flex-wrap" id="navMenu">
+<header class="fixed top-0 w-full z-50 py-2.5 px-4 md:px-10" style="background: rgba(2,6,23,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,255,200,0.4);">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="text-xl md:text-3xl font-black tracking-tighter"><span class="bg-gradient-to-r from-cyan-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent">FLAUT//INFRA</span><span class="text-[9px] md:text-xs ml-1 text-cyan-400">ai</span></div>
+        <button class="mobile-menu-btn text-cyan-400 text-2xl p-2" id="menuToggle" aria-label="Меню"><i class="fas fa-bars"></i></button>
+        <nav class="desktop-nav gap-5 text-sm md:text-base font-medium" id="navMenu">
             <a href="#home" data-route="home" class="nav-link text-gray-300 hover:text-cyan-400">HOME</a>
             <a href="#fad" data-route="fad" class="nav-link text-gray-300 hover:text-cyan-400">FAD</a>
             <a href="#neuroflaut" data-route="neuroflaut" class="nav-link text-gray-300 hover:text-cyan-400">NeuroFlaut</a>
@@ -50,94 +77,127 @@
             <a href="#chat" data-route="chat" class="nav-link text-gray-300 hover:text-cyan-400">WebChat</a>
         </nav>
     </div>
+    <div id="mobileNav" class="hidden mobile-nav-open" style="display: none;"></div>
 </header>
 
-<main class="pt-28 pb-20 px-5 md:px-10 max-w-7xl mx-auto relative z-10" id="appShell"></main>
+<main class="pt-20 md:pt-28 pb-16 md:pb-20 px-3 md:px-10 relative z-10" id="appShell"></main>
 
-<footer class="border-t border-cyan-800/30 py-8 px-6 mt-16 bg-black/50 text-gray-500 text-xs">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
-        <div class="flex gap-5"><i class="fas fa-cube text-cyan-400"></i><span>FLAUT CORE 2.7 · распределённая AI-сеть</span><i class="fas fa-shield-alt ml-2"></i><span>99.99% uptime</span></div>
-        <div>свобода, код, неоновая эстетика — 2025</div>
+<footer class="border-t border-cyan-800/30 py-5 md:py-8 px-4 md:px-6 mt-12 md:mt-16 bg-black/50 text-gray-500 text-[9px] md:text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 text-center">
+        <div class="flex flex-wrap gap-2 md:gap-5 justify-center"><i class="fas fa-cube text-cyan-400"></i><span>FLAUT CORE 2.7 · AI-сеть</span><i class="fas fa-shield-alt ml-1 md:ml-2"></i><span>99.99% uptime</span></div>
+        <div>свобода · код · неон — 2025</div>
     </div>
 </footer>
 
 <script>
-    // CANVAS — динамические частицы с эффектом мерцания
+    // CANVAS адаптивный
     const canvas = document.getElementById('cyberCanvas');
     let ctx = canvas.getContext('2d');
     let w, h;
-    function resizeCanvas() { w = window.innerWidth; h = window.innerHeight; canvas.width = w; canvas.height = h; }
+    function resizeCanvas() { w = window.innerWidth; h = window.innerHeight; canvas.width = w; canvas.height = h; initParts(Math.min(120, Math.floor(w * h / 10000))); }
     let particles = [];
     class Particle {
-        constructor() { this.x = Math.random() * w; this.y = Math.random() * h; this.r = Math.random() * 2.5 + 0.5; this.vx = (Math.random() - 0.5) * 0.25; this.vy = (Math.random() - 0.5) * 0.15; this.hue = 160 + Math.random() * 60; this.alpha = Math.random() * 0.5 + 0.2; }
+        constructor() { this.x = Math.random() * w; this.y = Math.random() * h; this.r = Math.random() * (w < 768 ? 1.2 : 2) + 0.5; this.vx = (Math.random() - 0.5) * 0.18; this.vy = (Math.random() - 0.5) * 0.1; this.hue = 160 + Math.random() * 60; this.alpha = Math.random() * 0.4 + 0.2; }
         update() { this.x += this.vx; if(this.x < 0) this.x = w; if(this.x > w) this.x = 0; this.y += this.vy; if(this.y < 0) this.y = h; if(this.y > h) this.y = 0; }
-        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, ${this.alpha})`; ctx.shadowBlur = 8; ctx.shadowColor = "#0ff"; ctx.fill(); }
+        draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, ${this.alpha})`; ctx.shadowBlur = 5; ctx.shadowColor = "#0ff"; ctx.fill(); }
     }
-    function initParts(count=180) { particles = []; for(let i=0;i<count;i++) particles.push(new Particle()); }
+    function initParts(count=120) { particles = []; for(let i=0;i<count;i++) particles.push(new Particle()); }
     function drawBg() { if(!ctx) return; ctx.clearRect(0,0,w,h); ctx.fillStyle = "#020617"; ctx.fillRect(0,0,w,h); for(let p of particles) { p.update(); p.draw(); } requestAnimationFrame(drawBg); }
-    window.addEventListener('resize', ()=>{ resizeCanvas(); initParts(180); });
-    resizeCanvas(); initParts(180); drawBg();
+    window.addEventListener('resize', ()=>{ resizeCanvas(); initParts(120); });
+    resizeCanvas(); initParts(120); drawBg();
 
-    // LENIS smooth
-    const lenis = new Lenis({ duration: 1.0, smoothWheel: true });
+    const lenis = new Lenis({ duration: 0.8, smoothWheel: true, touchMultiplier: 1.2 });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     gsap.registerPlugin(ScrollTrigger);
 
-    // Helper: таблицы метрик, логи, rich text
+    // Мобильное меню
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const navItems = [
+        { route: 'home', name: '🏠 HOME' }, { route: 'fad', name: '🛡️ FAD' }, 
+        { route: 'neuroflaut', name: '🧠 NeuroFlaut' }, { route: 'flautfilms', name: '🎬 FlautFilmы' },
+        { route: 'flautskim', name: '📄 FlautSkim' }, { route: 'chat', name: '💬 WebChat' }
+    ];
+    function updateMobileMenu() {
+        if (mobileNav) {
+            mobileNav.innerHTML = navItems.map(item => `<a href="#${item.route === 'home' ? '' : item.route}" data-route="${item.route}" class="mobile-nav-link nav-link text-gray-200 hover:text-cyan-400 text-base font-medium">${item.name}</a>`).join('');
+            mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', (e) => { e.preventDefault(); const r = link.getAttribute('data-route'); if (r) navigateTo(r); mobileNav.style.display = 'none'; menuToggle.innerHTML = '<i class="fas fa-bars"></i>'; });
+            });
+        }
+    }
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            const isHidden = mobileNav.style.display === 'none' || !mobileNav.style.display;
+            mobileNav.style.display = isHidden ? 'flex' : 'none';
+            menuToggle.innerHTML = isHidden ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+    }
+    updateMobileMenu();
+
+    // Telegram ссылки
+    const tgLinks = {
+        fad: "https://t.me/flautADF_bot",
+        neuroflaut: "https://t.me/FlautBot",
+        flautfilms: "https://t.me/flautfilmii_bot",
+        flautskim: "https://t.me/flautskim_bot"
+    };
+
     function renderMetrics(title, items) {
-        return `<div class="mt-8"><div class="text-xs uppercase tracking-wider text-cyan-400 mb-3">${title}</div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">${items.map(it => `<div class="stat-mint p-4 rounded-2xl"><div class="text-gray-400 text-xs">${it.label}</div><div class="text-2xl font-bold text-cyan-300">${it.value}</div><div class="text-[11px] text-gray-500 mt-1">${it.desc}</div></div>`).join('')}</div></div>`;
+        return `<div class="mt-6 md:mt-10 text-center"><div class="text-[9px] md:text-xs uppercase tracking-wider text-cyan-400 mb-2 md:mb-4 text-center">${title}</div><div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-5 max-w-4xl mx-auto">${items.map(it => `<div class="stat-mint p-2 md:p-5 rounded-xl md:rounded-2xl text-center"><div class="text-gray-400 text-[9px] md:text-xs uppercase mb-0.5">${it.label}</div><div class="text-base md:text-2xl lg:text-3xl font-bold text-cyan-300">${it.value}</div><div class="text-[8px] md:text-[11px] text-gray-500 mt-0.5">${it.desc}</div></div>`).join('')}</div></div>`;
     }
     function renderLogs(logs) {
-        return `<div class="glass-card p-5 mt-8"><div class="text-cyan-300 text-xs font-mono mb-2"><i class="fas fa-terminal mr-2"></i> system.log / realtime telemetry</div>${logs.map(l => `<div class="log-entry text-gray-400 text-xs py-1">${l}</div>`).join('')}</div>`;
+        return `<div class="glass-card p-3 md:p-5 mt-6 md:mt-10 max-w-3xl mx-auto"><div class="text-cyan-300 text-[9px] md:text-xs font-mono mb-2 text-center"><i class="fas fa-terminal mr-1"></i> system.log</div>${logs.map(l => `<div class="log-entry text-gray-400 text-[9px] md:text-xs py-0.5 md:py-1 max-w-2xl mx-auto">${l}</div>`).join('')}</div>`;
     }
     function renderRichText(paragraphs) {
-        return `<div class="space-y-4 text-gray-300 leading-relaxed text-base mt-6">${paragraphs.map(p => `<p>${p}</p>`).join('')}</div>`;
+        return `<div class="space-y-2 md:space-y-4 text-gray-300 leading-relaxed text-xs md:text-base mt-4 md:mt-8 max-w-3xl mx-auto text-center px-2">${paragraphs.map(p => `<p>${p}</p>`).join('')}</div>`;
     }
     function renderBulletList(items, title) {
-        return `<div class="glass-card p-5 mt-6"><div class="text-cyan-300 text-sm font-bold mb-3">${title}</div><ul class="space-y-2 text-gray-300 text-sm">${items.map(i => `<li class="flex gap-2"><i class="fas fa-circle text-[6px] text-cyan-400 mt-1.5"></i><span>${i}</span></li>`).join('')}</ul></div>`;
+        return `<div class="glass-card p-3 md:p-6 mt-5 md:mt-8 max-w-2xl mx-auto"><div class="text-cyan-300 text-xs md:text-sm font-bold mb-2 md:mb-4 text-center">${title}</div><ul class="space-y-1 md:space-y-2 text-gray-300 text-[10px] md:text-sm max-w-md mx-auto">${items.map(i => `<li class="flex gap-1.5 md:gap-2 justify-center items-center"><i class="fas fa-circle text-[3px] md:text-[6px] text-cyan-400"></i><span class="break-words text-center">${i}</span></li>`).join('')}</ul></div>`;
     }
 
-    // ГЛАВНАЯ С ЦЕНТРИРОВАНИЕМ, АНИМАЦИЯМИ И СТИЛИЗАЦИЕЙ
+    // ГЛАВНАЯ — идеально для мобилок
     const homePage = () => `
-        <div class="min-h-[75vh] flex flex-col justify-center items-center text-center relative">
-            <div class="floating mb-6">
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-4">
+        <div class="min-h-[70vh] flex flex-col justify-center items-center text-center relative max-w-6xl mx-auto px-2">
+            <div class="floating mb-3 md:mb-6">
+                <h1 class="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-2 md:mb-4 leading-tight">
                     <span class="bg-gradient-to-r from-cyan-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent glow-text">Flaut Digital<br>Infrastructure</span>
                 </h1>
-                <div class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto h-20">
+                <div class="text-sm md:text-xl lg:text-2xl text-gray-300 max-w-2xl mx-auto h-12 md:h-20">
                     <span id="typedText" class="border-r-2 border-cyan-400"></span>
                 </div>
             </div>
-            <div class="flex gap-3 mt-8 flex-wrap justify-center">
-                <span class="badge-eco border border-cyan-500/40 hover:shadow-cyan-500/20 transition-all"><i class="fas fa-bolt text-cyan-300"></i> &lt;90ms latency</span>
-                <span class="badge-eco border border-emerald-500/40 hover:shadow-emerald-500/20 transition-all"><i class="fas fa-database"></i> 128k context</span>
-                <span class="badge-eco border border-teal-500/40 hover:shadow-teal-500/20 transition-all"><i class="fas fa-shield-haltered"></i> anti-deepfake</span>
+            <div class="flex gap-1.5 md:gap-3 mt-4 md:mt-8 flex-wrap justify-center">
+                <span class="badge-eco border border-cyan-500/40"><i class="fas fa-bolt text-cyan-300"></i> &lt;90ms</span>
+                <span class="badge-eco border border-emerald-500/40"><i class="fas fa-database"></i> 128k ctx</span>
+                <span class="badge-eco border border-teal-500/40"><i class="fas fa-shield-haltered"></i> anti-df</span>
             </div>
-            <div class="mt-16 w-full max-w-4xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-sm text-gray-400">
-                    <div class="glass-card p-4 text-center"><i class="fas fa-robot text-cyan-400 text-2xl mb-2 block"></i> 5 AI-инструментов</div>
-                    <div class="glass-card p-4 text-center"><i class="fas fa-chart-line text-cyan-400 text-2xl mb-2 block"></i> 1.5M запросов/сутки</div>
-                    <div class="glass-card p-4 text-center"><i class="fas fa-globe text-cyan-400 text-2xl mb-2 block"></i> Telegram + Web</div>
+            <div class="mt-8 md:mt-16 w-full max-w-3xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-5 text-[10px] md:text-sm text-gray-400">
+                    <div class="glass-card p-2 md:p-4 text-center"><i class="fas fa-robot text-cyan-400 text-lg md:text-2xl mb-0.5 md:mb-2 block"></i> 4 AI-бота в Telegram</div>
+                    <div class="glass-card p-2 md:p-4 text-center"><i class="fas fa-chart-line text-cyan-400 text-lg md:text-2xl mb-0.5 md:mb-2 block"></i> 28.5K запросов/сутки</div>
+                </div>
+                <div class="mt-3 md:mt-6 grid grid-cols-2 md:grid-cols-4 gap-1.5 md:gap-3">
+                    <a href="${tgLinks.fad}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautADF_bot</a>
+                    <a href="${tgLinks.neuroflaut}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @FlautBot</a>
+                    <a href="${tgLinks.flautfilms}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautfilmii_bot</a>
+                    <a href="${tgLinks.flautskim}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautskim_bot</a>
                 </div>
             </div>
         </div>
     `;
 
-    // FAD страница
-    const fadPage = () => `<div class="fade-wrap"><div class="flex justify-between items-center flex-wrap gap-4"><h1 class="text-5xl font-black gradient-text">FlautAntiDeepfake</h1><button data-nav="home" class="back-main px-5 py-2 rounded-full border border-cyan-500 text-sm hover:bg-cyan-900/30 transition-all"><i class="fas fa-arrow-left"></i> на главную</button></div><p class="text-gray-300 text-xl mt-2 max-w-3xl">Промышленный детектор синтетических медиа. Используется в новостных редакциях, банках и платформах верификации.</p>${renderMetrics("FAD CORE", [{label:"Accuracy", value:"99.97%", desc:"ROC-AUC 0.9992"},{label:"Inference time", value:"82ms", desc:"на кадр 1080p"},{label:"Model arch", value:"SwinIR + CNN", desc:"ensemble 3 ветки"},{label:"Блокировано атак", value:"1.74M", desc:"только 2025"}])}${renderRichText(["FAD анализирует не только визуальные артефакты (отсутствие моргания, неестественные текстуры кожи), но и аудиодорожку через Wav2Vec2 для выявления синтетических голосов. Система работает в реальном времени: Telegram-бот может проверить любое видео за секунду. Встроенный explainability-модуль показывает, какие именно участки лица вызвали подозрение."])}<div class="grid md:grid-cols-2 gap-5 mt-8"><div class="glass-card p-5"><div class="font-mono text-xs">confidence distribution</div><div class="h-16 w-full bg-black/40 mt-3 flex items-end gap-1"><div class="w-[98%] bg-gradient-to-t from-cyan-500 to-emerald-400 h-12 rounded-t-sm"></div><div class="w-[2%] bg-red-500/60 h-1"></div></div><div class="text-[11px] mt-2 text-gray-400">FPR 0.012% | TPR 99.93%</div></div><div class="glass-card p-5"><div class="font-mono text-xs">⚡ интеграции</div><div class="mt-2 text-sm">Совместимость с deepfake-детекторами от Microsoft и Intel. Онлайн-обновление сигнатур каждые 6 часов.</div></div></div>${renderLogs(["[FAD] зафиксирована попытка подмены лица: отклонена","[MODEL] обновление весов до версии 4.2.1","[AUDIT] проверено 2.3M медиафайлов"])}</div>`;
+    // Страницы с адаптацией
+    const fadPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2 md:mb-3">FlautAntiDeepfake</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.fad}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane text-cyan-400"></i> @flautADF_bot</a><button data-nav="home" class="back-main px-3 md:px-5 py-1 md:py-2 rounded-full border border-cyan-500 text-[9px] md:text-sm"><i class="fas fa-arrow-left"></i> назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 md:mt-4 max-w-2xl mx-auto text-center px-1">Промышленный детектор синтетических медиа.</p>${renderMetrics("FAD CORE", [{label:"Точность", value:"97.2%", desc:"ROC-AUC"},{label:"Inference", value:"124ms", desc:"на кадр"},{label:"Модель", value:"EfficientNet", desc:"легкая"},{label:"Заблокировано", value:"1,284", desc:"атак"}])}${renderRichText(["Анализирует визуальные артефакты и аудио. Работает через Telegram-бота."])}<div class="grid md:grid-cols-2 gap-3 md:gap-5 mt-5 md:mt-8 max-w-4xl mx-auto"><div class="glass-card p-3 md:p-5 text-center"><div class="font-mono text-[9px] md:text-xs">уверенность</div><div class="h-10 md:h-16 w-full bg-black/40 mt-2 flex items-end gap-1 justify-center"><div class="w-[88%] bg-gradient-to-t from-cyan-500 to-emerald-400 h-6 md:h-12 rounded-t-sm"></div><div class="w-[12%] bg-red-500/60 h-1 md:h-2"></div></div><div class="text-[8px] md:text-[11px] mt-1 text-gray-400">FPR 1.8% | TPR 97.2%</div></div><div class="glass-card p-3 md:p-5 text-center"><div class="font-mono text-[9px] md:text-xs">⚡ интеграции</div><div class="mt-1 md:mt-2 text-[10px] md:text-sm">Telegram API, проверка по URL</div></div></div>${renderLogs(["[FAD] проверено 342 видео сегодня","[MODEL] v2.3","[ALERT] ложных: 0.8%"])}</div>`;
 
-    // NeuroFlaut
-    const neuroPage = () => `<div class="fade-wrap"><div class="flex justify-between items-center flex-wrap"><h1 class="text-5xl font-black gradient-text">NeuroFlaut</h1><button data-nav="home" class="back-main border border-cyan-500 px-5 py-2 rounded-full transition-all">← Главная</button></div><p class="text-gray-300 text-xl mt-2">Универсальный ИИ-ассистент с долговременной памятью. Поддержка PDF, DOCX, аудио, YouTube-ссылок.</p>${renderMetrics("нейроядро", [{label:"контекст", value:"128k токенов", desc:"GPT-4 Turbo level"},{label:"модель", value:"Mixtral 8x22B", desc:"OpenRouter"},{label:"RAG точность", value:"96.2%", desc:"сложные запросы"},{label:"avg ответ", value:"1.09s", desc:"инференс"}])}${renderRichText(["NeuroFlaut — это не просто чат-бот. Плагинная архитектура: YouTube, Wolfram, крипто-цены, погода. Голосовые сообщения (whisper + TTS). In-memory RAG на 2.1M векторов."])}${renderBulletList(["YouTube-саммаризатор","Wolfram Alpha вычисления","Крипто-цены в реальном времени","Память на 100 диалогов"], "🔌 активные плагины")}${renderLogs(["[NEURO] Инференс: 1.04с","[RAG] обновлено 12k документов","[MEMORY] эффективность 42%"])}</div>`;
+    const neuroPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2">NeuroFlaut</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.neuroflaut}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane"></i> @FlautBot</a><button data-nav="home" class="back-main border border-cyan-500 px-3 md:px-5 py-1 md:py-2 rounded-full text-[9px] md:text-sm">← назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 max-w-2xl mx-auto text-center">Универсальный ИИ-ассистент с памятью.</p>${renderMetrics("нейроядро", [{label:"контекст", value:"32k", desc:"токенов"},{label:"модель", value:"Mixtral", desc:"8x7B"},{label:"RAG", value:"89.4%", desc:"точность"},{label:"ответ", value:"1.42s", desc:"средний"}])}${renderRichText(["YouTube, Wolfram, погода. Голосовые сообщения через Whisper."])}${renderBulletList(["YouTube-саммаризатор","Wolfram Alpha","Крипто-цены","Память на 30 диалогов"], "🔌 плагины")}${renderLogs(["[NEURO] 1.42с","[RAG] 1,280 док","[MEMORY] 37%"])}</div>`;
 
-    // FlautFilmы (с правильным написанием и градиентом)
-    const filmsPage = () => `<div class="fade-wrap"><div class="flex justify-between"><h1 class="text-5xl font-black gradient-text">FlautFilmы</h1><button data-nav="home" class="back-main border border-cyan-500 px-5 py-2 rounded-full">← домой</button></div><p class="text-gray-300 text-xl mt-2">Нейросетевой кинокритик + персональные подборки на основе эмоционального профиля.</p>${renderMetrics("FlautFilm AI", [{label:"база фильмов", value:"2.7M", desc:"+ 40k новинок"},{label:"hitrate@10", value:"93.7%", desc:"точность"},{label:"Жанры", value:"64", desc:"включая микрожанры"},{label:"время реком.", value:"0.27s", desc:"на пользователя"}])}${renderRichText(["Гибридная модель: коллаборативная фильтрация + нейросетевые эмбеддинги трейлеров. Функция «фильм на вечер»: ИИ задаёт 3 вопроса и подбирает идеальный вариант за секунду."])}<div class="glass-card p-5 mt-6 text-sm"><span class="text-cyan-300 font-bold">🔥 Топ рекомендации сегодня:</span> «Анора» (98%), «Дюна: Пророчество» (96%), «Проблема трех тел» (94%).</div>${renderLogs(["[FlautFilm] Обновление эмбеддингов: 2300 фильмов","[AI] Рейтинг ожидания 8.9/10","[USER] Сессий: 11.2k"])}</div>`;
+    const filmsPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2">FlautFilmы</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.flautfilms}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane"></i> @flautfilmii_bot</a><button data-nav="home" class="back-main border border-cyan-500 px-3 md:px-5 py-1 md:py-2 rounded-full text-[9px] md:text-sm">← назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 max-w-2xl mx-auto text-center">Нейрокинокритик + рекомендации.</p>${renderMetrics("FlautFilm AI", [{label:"База", value:"18.5K", desc:"фильмов"},{label:"Точность", value:"87.3%", desc:"HitRate"},{label:"Жанры", value:"24", desc:"категорий"},{label:"Время", value:"0.41s", desc:"подбор"}])}${renderRichText(["Коллаборативная фильтрация + эмбеддинги. «Кино на вечер» за секунду."])}<div class="glass-card p-3 md:p-5 mt-4 md:mt-6 max-w-2xl mx-auto text-center text-[10px] md:text-sm"><span class="text-cyan-300 font-bold">🎬 Топ:</span> «Анора» 94%, «Дюна» 92%</div>${renderLogs(["[FlautFilm] 540 фильмов","[AI] рейтинг 8.2","[USER] 1,284 сессий"])}</div>`;
 
-    // FlautSkim
-    const skimPage = () => `<div class="fade-wrap"><div class="flex justify-between"><h1 class="text-5xl font-black gradient-text">FlautSkim</h1><button data-nav="home" class="back-main border border-cyan-500 px-5 py-2 rounded-full">← главная</button></div><p class="text-gray-300 text-xl mt-2">Мгновенный саммаризатор видео, аудио, YouTube, Rutube. Транскрибация + ключевые моменты.</p>${renderMetrics("SKIM Core", [{label:"Скорость", value:"320 ток/с", desc:"A100"},{label:"сжатие", value:"11:1", desc:"умное"},{label:"языки", value:"14", desc:"+ авто"},{label:"ROUGE-L", value:"92.3%", desc:"точность"}])}${renderRichText(["Whisper-large-v3 + BART-Large. Отправь ссылку на 2-часовой стрим — получи 8 тезисов с таймкодами за 20 секунд. Идеально для лекций, интервью, конференций."])}<div class="card-neon p-5 mt-5"><div class="grid grid-cols-2 gap-2 text-xs font-mono"><span>📹 обработано видео: 418k часов</span><span>🎙 транскрибация: 2.3M минут</span></div></div>${renderLogs(["[Skim] YouTube: 5200 ссылок сегодня","[Audio] WER 4.1%","[Rutube] API v3.0"])}</div>`;
+    const skimPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2">FlautSkim</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.flautskim}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane"></i> @flautskim_bot</a><button data-nav="home" class="back-main border border-cyan-500 px-3 md:px-5 py-1 md:py-2 rounded-full text-[9px] md:text-sm">← назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 max-w-2xl mx-auto text-center">Саммаризатор видео/YouTube/аудио.</p>${renderMetrics("SKIM", [{label:"Скорость", value:"180 ток/с", desc:"T4"},{label:"Сжатие", value:"8:1", desc:"инфо"},{label:"Языки", value:"8", desc:"+ рус"},{label:"ROUGE", value:"84.7%", desc:"точность"}])}${renderRichText(["Whisper-small + BART-base. 40 мин → 5 тезисов за 25 сек."])}<div class="card-neon p-3 md:p-5 mt-4 max-w-2xl mx-auto"><div class="grid grid-cols-2 gap-1 text-[8px] md:text-xs font-mono text-center"><span>📹 1,280 ч</span><span>🎙 8,450 мин</span></div></div>${renderLogs(["[Skim] 82 ссылки","[Audio] WER 6.2%","[Cache] 34%"])}</div>`;
 
-    // WEBCHAT
-    const chatPage = () => `<div class="fade-wrap"><div class="flex justify-between items-center flex-wrap gap-4"><div><h1 class="text-5xl font-black gradient-text">НейроФлаут WebChat</h1><p class="text-gray-400 text-sm mt-1">OpenRouter API / auto (GPT-4o mini, Llama 3)</p></div><button data-nav="home" class="back-main px-5 py-2 rounded-full border border-cyan-500">← На главную</button></div><div class="glass-card mt-6 flex flex-col h-[520px] overflow-hidden"><div id="chatMessagesArea" class="flex-1 overflow-y-auto p-5 space-y-3 flex flex-col"></div><div class="p-4 border-t border-cyan-800/40 flex gap-3 bg-black/30"><input id="chatUserInput" type="text" placeholder="Спроси что угодно: технологии, кино, философия..." class="flex-1 bg-black/60 border border-cyan-500/50 rounded-2xl px-5 py-3 text-white outline-none focus:border-cyan-300"><button id="chatSendButton" class="bg-cyan-700/50 hover:bg-cyan-600 px-6 rounded-2xl transition font-bold">→ Отправить</button></div></div>${renderRichText(["Чат подключен к OpenRouter — агрегатору LLM. Модель выбирается автоматически (бесплатный роутинг). НейроФлаут помнит контекст сессии, может писать код, анализировать идеи."])}</div>`;
+    const chatPage = () => `<div class="fade-wrap max-w-5xl mx-auto px-2"><div class="text-center mb-4"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-1">WebChat</h1><p class="text-gray-400 text-[9px] md:text-sm">OpenRouter · GPT-4o mini / Llama 3</p><button data-nav="home" class="back-main mt-2 px-3 md:px-5 py-1 md:py-2 rounded-full border border-cyan-500 text-[9px] md:text-sm">← назад</button></div><div class="glass-card mt-3 flex flex-col h-[420px] md:h-[520px] max-w-4xl mx-auto overflow-hidden"><div id="chatMessagesArea" class="flex-1 overflow-y-auto p-2 md:p-5 space-y-2 flex flex-col"></div><div class="p-2 md:p-4 border-t border-cyan-800/40 flex gap-2 bg-black/30"><input id="chatUserInput" type="text" placeholder="Спроси..." class="flex-1 bg-black/60 border border-cyan-500/50 rounded-2xl px-3 md:px-5 py-2 text-sm text-white"><button id="chatSendButton" class="bg-cyan-700/50 hover:bg-cyan-600 px-4 md:px-6 rounded-2xl font-bold text-sm">→</button></div></div>${renderRichText(["Бесплатные LLM через OpenRouter. Помнит контекст, пишет код."])}<div class="text-center mt-3"><span class="text-gray-500 text-[9px] md:text-xs">Telegram: <a href="${tgLinks.neuroflaut}" target="_blank" class="text-cyan-400">@FlautBot</a></span></div></div>`;
 
     const views = { home: homePage, fad: fadPage, neuroflaut: neuroPage, flautfilms: filmsPage, flautskim: skimPage, chat: chatPage };
 
@@ -157,17 +217,11 @@
         appContainer.innerHTML = views[route]();
         setActiveNav(route);
         document.querySelectorAll('.back-main').forEach(btn => btn.addEventListener('click', () => navigateTo('home')));
-        
-        // Анимация появления для внутренних страниц
         if (route !== 'home') {
-            gsap.fromTo('.fade-wrap', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+            gsap.fromTo('.fade-wrap', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
         } else {
-            // Анимация для главной: печатная машинка + появление элементов
-            gsap.fromTo('.floating', { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(0.5)" });
-            gsap.fromTo('.badge-eco', { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.3 });
-            gsap.fromTo('.glass-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.6 });
-            // Эффект печатной машинки
-            const phrases = ["свобода без компромиссов", "генеративный интеллект", "нейросети на пределе", "экосистема будущего"];
+            gsap.fromTo('.floating', { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(0.5)" });
+            const phrases = ["свобода без границ", "генеративный ИИ", "нейросети на старте"];
             let i = 0, j = 0, currentPhrase = "", isDeleting = false;
             const typedSpan = document.getElementById('typedText');
             if (typedSpan) {
@@ -176,23 +230,22 @@
                         currentPhrase = currentPhrase.slice(0, -1);
                         typedSpan.innerHTML = currentPhrase + '<span class="typewriter-cursor"></span>';
                         if (currentPhrase.length === 0) { isDeleting = false; i = (i + 1) % phrases.length; setTimeout(typeEffect, 300); return; }
-                        setTimeout(typeEffect, 50);
+                        setTimeout(typeEffect, 40);
                     } else {
                         const full = phrases[i];
                         currentPhrase = full.slice(0, j++);
                         typedSpan.innerHTML = currentPhrase + '<span class="typewriter-cursor"></span>';
                         if (currentPhrase.length === full.length) { isDeleting = true; j = full.length; setTimeout(typeEffect, 2000); return; }
-                        setTimeout(typeEffect, 80);
+                        setTimeout(typeEffect, 60);
                     }
                 }
-                setTimeout(typeEffect, 500);
+                setTimeout(typeEffect, 300);
             }
         }
         if (route === 'chat') initChatInterface();
         ScrollTrigger.refresh();
     }
 
-    // Chat с OpenRouter
     async function initChatInterface() {
         const container = document.getElementById('chatMessagesArea');
         const input = document.getElementById('chatUserInput');
@@ -201,11 +254,11 @@
         const addMsg = (text, isUser) => {
             const div = document.createElement('div');
             div.className = `flex ${isUser ? 'justify-end' : 'justify-start'} fade-in-msg`;
-            div.innerHTML = `<div class="${isUser ? 'bg-gradient-to-r from-cyan-800 to-teal-800 rounded-2xl rounded-br-none px-4 py-2 max-w-[75%]' : 'glass-card border border-cyan-500/30 rounded-2xl rounded-tl-none px-4 py-2 max-w-[80%]'} text-sm">${text.replace(/\n/g, '<br>')}</div>`;
+            div.innerHTML = `<div class="${isUser ? 'bg-gradient-to-r from-cyan-800 to-teal-800 rounded-2xl rounded-br-none px-3 py-1.5 max-w-[80%]' : 'glass-card border border-cyan-500/30 rounded-2xl rounded-tl-none px-3 py-1.5 max-w-[85%]'} text-xs md:text-sm">${text.replace(/\n/g, '<br>')}</div>`;
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
         };
-        const typingOn = () => { const tid = document.createElement('div'); tid.id = 'typingLoader'; tid.className = 'flex justify-start'; tid.innerHTML = `<div class="glass-card px-3 py-2 rounded-xl flex gap-1"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce delay-75"></span><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce delay-150"></span></div>`; container.appendChild(tid); container.scrollTop = container.scrollHeight; };
+        const typingOn = () => { const tid = document.createElement('div'); tid.id = 'typingLoader'; tid.className = 'flex justify-start'; tid.innerHTML = `<div class="glass-card px-2 py-1.5 rounded-xl flex gap-1"><span class="w-1 h-1 bg-cyan-400 rounded-full animate-bounce"></span><span class="w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-75"></span><span class="w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-150"></span></div>`; container.appendChild(tid); container.scrollTop = container.scrollHeight; };
         const typingOff = () => document.getElementById('typingLoader')?.remove();
         const sendQuery = async (msg) => {
             addMsg(msg, true); input.value = ''; typingOn();
@@ -216,24 +269,24 @@
                 });
                 if (!res.ok) throw new Error();
                 const data = await res.json();
-                const reply = data.choices?.[0]?.message?.content || "Не удалось сгенерировать ответ.";
+                const reply = data.choices?.[0]?.message?.content || "Ошибка генерации";
                 typingOff(); addMsg(reply, false);
-            } catch (e) { typingOff(); addMsg("⚠️ Ошибка API OpenRouter, попробуй ещё раз.", false); }
+            } catch (e) { typingOff(); addMsg("⚠️ Ошибка API, попробуй ещё", false); }
         };
         const handler = () => { const val = input.value.trim(); if (val) sendQuery(val); };
         btn.onclick = handler; input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handler(); });
-        addMsg("Привет! Я NeuroFlaut через OpenRouter. Спрашивай о чём угодно.", false);
+        addMsg("Привет! Я NeuroFlaut. Спрашивай о чём угодно.", false);
     }
 
     window.addEventListener('popstate', () => { const hash = window.location.hash.slice(1) || 'home'; navigateTo(hash, false); });
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.desktop-nav .nav-link').forEach(link => {
         link.addEventListener('click', (e) => { e.preventDefault(); const r = link.getAttribute('data-route'); if (r) navigateTo(r); });
     });
     const initRoute = window.location.hash.slice(1) || 'home';
     navigateTo(initRoute);
 
     const styleAdd = document.createElement('style');
-    styleAdd.textContent = `.fade-in-msg { animation: fadeIn 0.2s ease; } @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } } .active-nav { color: #0ff; border-bottom: 2px solid #0ff; } .card-neon, .glass-card { transition: all 0.2s; }`;
+    styleAdd.textContent = `.fade-in-msg { animation: fadeIn 0.15s ease; } @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } } .active-nav { color: #0ff; border-bottom: 2px solid #0ff; }`;
     document.head.appendChild(styleAdd);
 </script>
 </body>
