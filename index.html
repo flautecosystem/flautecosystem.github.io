@@ -34,7 +34,6 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .telegram-link { background: rgba(0, 255, 200, 0.12); border: 1px solid rgba(0, 255, 200, 0.4); transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
         .telegram-link:active { background: rgba(0, 255, 200, 0.3); transform: scale(0.96); }
-        /* Мобильная оптимизация */
         @media (max-width: 768px) {
             .glass-card, .card-neon { border-radius: 1.25rem; }
             h1 { font-size: 2.2rem !important; line-height: 1.2 !important; letter-spacing: -0.02em !important; }
@@ -58,6 +57,9 @@
         .mobile-nav-open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: rgba(2,6,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid #0ff; padding: 1rem; gap: 1rem; z-index: 100; }
         .mobile-nav-link { padding: 0.75rem; text-align: center; font-size: 1rem; border-radius: 12px; transition: all 0.2s; }
         .mobile-nav-link:active { background: rgba(0,255,200,0.1); }
+        .hero-center { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .content-below { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .content-below.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="bg-[#020617]">
@@ -80,7 +82,7 @@
     <div id="mobileNav" class="hidden mobile-nav-open" style="display: none;"></div>
 </header>
 
-<main class="pt-20 md:pt-28 pb-16 md:pb-20 px-3 md:px-10 relative z-10" id="appShell"></main>
+<main class="pt-16 md:pt-20 pb-16 md:pb-20 px-3 md:px-10 relative z-10" id="appShell"></main>
 
 <footer class="border-t border-cyan-800/30 py-5 md:py-8 px-4 md:px-6 mt-12 md:mt-16 bg-black/50 text-gray-500 text-[9px] md:text-xs">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 text-center">
@@ -90,7 +92,7 @@
 </footer>
 
 <script>
-    // CANVAS адаптивный
+    // CANVAS
     const canvas = document.getElementById('cyberCanvas');
     let ctx = canvas.getContext('2d');
     let w, h;
@@ -157,38 +159,40 @@
         return `<div class="glass-card p-3 md:p-6 mt-5 md:mt-8 max-w-2xl mx-auto"><div class="text-cyan-300 text-xs md:text-sm font-bold mb-2 md:mb-4 text-center">${title}</div><ul class="space-y-1 md:space-y-2 text-gray-300 text-[10px] md:text-sm max-w-md mx-auto">${items.map(i => `<li class="flex gap-1.5 md:gap-2 justify-center items-center"><i class="fas fa-circle text-[3px] md:text-[6px] text-cyan-400"></i><span class="break-words text-center">${i}</span></li>`).join('')}</ul></div>`;
     }
 
-    // ГЛАВНАЯ — идеально для мобилок
+    // ГЛАВНАЯ — ТОЛЬКО ЗАГОЛОВОК ПО ЦЕНТРУ, ОСТАЛЬНОЕ НИЖЕ
     const homePage = () => `
-        <div class="min-h-[70vh] flex flex-col justify-center items-center text-center relative max-w-6xl mx-auto px-2">
-            <div class="floating mb-3 md:mb-6">
-                <h1 class="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-2 md:mb-4 leading-tight">
+        <div class="hero-center">
+            <div class="floating">
+                <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-4 md:mb-6 leading-tight">
                     <span class="bg-gradient-to-r from-cyan-400 via-emerald-300 to-teal-300 bg-clip-text text-transparent glow-text">Flaut Digital<br>Infrastructure</span>
                 </h1>
-                <div class="text-sm md:text-xl lg:text-2xl text-gray-300 max-w-2xl mx-auto h-12 md:h-20">
+                <div class="text-base md:text-xl text-gray-400 max-w-2xl mx-auto px-3">
                     <span id="typedText" class="border-r-2 border-cyan-400"></span>
                 </div>
             </div>
-            <div class="flex gap-1.5 md:gap-3 mt-4 md:mt-8 flex-wrap justify-center">
-                <span class="badge-eco border border-cyan-500/40"><i class="fas fa-bolt text-cyan-300"></i> &lt;90ms</span>
-                <span class="badge-eco border border-emerald-500/40"><i class="fas fa-database"></i> 128k ctx</span>
-                <span class="badge-eco border border-teal-500/40"><i class="fas fa-shield-haltered"></i> anti-df</span>
+        </div>
+        <div id="scrollContent" class="content-below mt-8 md:mt-12">
+            <div class="flex gap-2 md:gap-3 mt-6 flex-wrap justify-center">
+                <span class="badge-eco border border-cyan-500/40"><i class="fas fa-bolt text-cyan-300"></i> &lt;90ms latency</span>
+                <span class="badge-eco border border-emerald-500/40"><i class="fas fa-database"></i> 128k context</span>
+                <span class="badge-eco border border-teal-500/40"><i class="fas fa-shield-haltered"></i> anti-deepfake</span>
             </div>
-            <div class="mt-8 md:mt-16 w-full max-w-3xl mx-auto">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-5 text-[10px] md:text-sm text-gray-400">
-                    <div class="glass-card p-2 md:p-4 text-center"><i class="fas fa-robot text-cyan-400 text-lg md:text-2xl mb-0.5 md:mb-2 block"></i> 4 AI-бота в Telegram</div>
-                    <div class="glass-card p-2 md:p-4 text-center"><i class="fas fa-chart-line text-cyan-400 text-lg md:text-2xl mb-0.5 md:mb-2 block"></i> 28.5K запросов/сутки</div>
+            <div class="mt-8 md:mt-12 w-full max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5 text-xs md:text-sm text-gray-400">
+                    <div class="glass-card p-3 md:p-5 text-center hover:border-cyan-400 transition-all"><i class="fas fa-robot text-cyan-400 text-xl md:text-2xl mb-1 md:mb-2 block"></i> 4 AI-бота в Telegram</div>
+                    <div class="glass-card p-3 md:p-5 text-center hover:border-cyan-400 transition-all"><i class="fas fa-chart-line text-cyan-400 text-xl md:text-2xl mb-1 md:mb-2 block"></i> 28.5K запросов/сутки</div>
                 </div>
-                <div class="mt-3 md:mt-6 grid grid-cols-2 md:grid-cols-4 gap-1.5 md:gap-3">
-                    <a href="${tgLinks.fad}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautADF_bot</a>
-                    <a href="${tgLinks.neuroflaut}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @FlautBot</a>
-                    <a href="${tgLinks.flautfilms}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautfilmii_bot</a>
-                    <a href="${tgLinks.flautskim}" target="_blank" class="telegram-link justify-center px-1.5 md:px-3 py-1.5 md:py-2 rounded-xl text-[9px] md:text-xs">🤖 @flautskim_bot</a>
+                <div class="mt-4 md:mt-6 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                    <a href="${tgLinks.fad}" target="_blank" class="telegram-link justify-center px-2 md:px-3 py-1.5 md:py-2 rounded-xl text-[10px] md:text-xs">🤖 @flautADF_bot</a>
+                    <a href="${tgLinks.neuroflaut}" target="_blank" class="telegram-link justify-center px-2 md:px-3 py-1.5 md:py-2 rounded-xl text-[10px] md:text-xs">🤖 @FlautBot</a>
+                    <a href="${tgLinks.flautfilms}" target="_blank" class="telegram-link justify-center px-2 md:px-3 py-1.5 md:py-2 rounded-xl text-[10px] md:text-xs">🤖 @flautfilmii_bot</a>
+                    <a href="${tgLinks.flautskim}" target="_blank" class="telegram-link justify-center px-2 md:px-3 py-1.5 md:py-2 rounded-xl text-[10px] md:text-xs">🤖 @flautskim_bot</a>
                 </div>
             </div>
         </div>
     `;
 
-    // Страницы с адаптацией
+    // Страницы продуктов
     const fadPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2 md:mb-3">FlautAntiDeepfake</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.fad}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane text-cyan-400"></i> @flautADF_bot</a><button data-nav="home" class="back-main px-3 md:px-5 py-1 md:py-2 rounded-full border border-cyan-500 text-[9px] md:text-sm"><i class="fas fa-arrow-left"></i> назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 md:mt-4 max-w-2xl mx-auto text-center px-1">Промышленный детектор синтетических медиа.</p>${renderMetrics("FAD CORE", [{label:"Точность", value:"97.2%", desc:"ROC-AUC"},{label:"Inference", value:"124ms", desc:"на кадр"},{label:"Модель", value:"EfficientNet", desc:"легкая"},{label:"Заблокировано", value:"1,284", desc:"атак"}])}${renderRichText(["Анализирует визуальные артефакты и аудио. Работает через Telegram-бота."])}<div class="grid md:grid-cols-2 gap-3 md:gap-5 mt-5 md:mt-8 max-w-4xl mx-auto"><div class="glass-card p-3 md:p-5 text-center"><div class="font-mono text-[9px] md:text-xs">уверенность</div><div class="h-10 md:h-16 w-full bg-black/40 mt-2 flex items-end gap-1 justify-center"><div class="w-[88%] bg-gradient-to-t from-cyan-500 to-emerald-400 h-6 md:h-12 rounded-t-sm"></div><div class="w-[12%] bg-red-500/60 h-1 md:h-2"></div></div><div class="text-[8px] md:text-[11px] mt-1 text-gray-400">FPR 1.8% | TPR 97.2%</div></div><div class="glass-card p-3 md:p-5 text-center"><div class="font-mono text-[9px] md:text-xs">⚡ интеграции</div><div class="mt-1 md:mt-2 text-[10px] md:text-sm">Telegram API, проверка по URL</div></div></div>${renderLogs(["[FAD] проверено 342 видео сегодня","[MODEL] v2.3","[ALERT] ложных: 0.8%"])}</div>`;
 
     const neuroPage = () => `<div class="fade-wrap max-w-6xl mx-auto px-2"><div class="text-center mb-5 md:mb-8"><h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black gradient-text mb-2">NeuroFlaut</h1><div class="flex flex-wrap gap-1.5 md:gap-3 justify-center mt-2"><a href="${tgLinks.neuroflaut}" target="_blank" class="telegram-link px-2 md:px-4 py-1 md:py-2 rounded-full text-[9px] md:text-sm"><i class="fab fa-telegram-plane"></i> @FlautBot</a><button data-nav="home" class="back-main border border-cyan-500 px-3 md:px-5 py-1 md:py-2 rounded-full text-[9px] md:text-sm">← назад</button></div></div><p class="text-gray-300 text-sm md:text-xl mt-2 max-w-2xl mx-auto text-center">Универсальный ИИ-ассистент с памятью.</p>${renderMetrics("нейроядро", [{label:"контекст", value:"32k", desc:"токенов"},{label:"модель", value:"Mixtral", desc:"8x7B"},{label:"RAG", value:"89.4%", desc:"точность"},{label:"ответ", value:"1.42s", desc:"средний"}])}${renderRichText(["YouTube, Wolfram, погода. Голосовые сообщения через Whisper."])}${renderBulletList(["YouTube-саммаризатор","Wolfram Alpha","Крипто-цены","Память на 30 диалогов"], "🔌 плагины")}${renderLogs(["[NEURO] 1.42с","[RAG] 1,280 док","[MEMORY] 37%"])}</div>`;
@@ -203,6 +207,7 @@
 
     let currentRoute = 'home';
     const appContainer = document.getElementById('appShell');
+    
     function setActiveNav(route) {
         document.querySelectorAll('.nav-link').forEach(link => {
             const r = link.getAttribute('data-route');
@@ -210,18 +215,24 @@
             else link.classList.remove('active-nav');
         });
     }
+    
     function navigateTo(route, pushState = true) {
         if (!views[route]) route = 'home';
         currentRoute = route;
         if (pushState) window.history.pushState({ route }, '', `#${route === 'home' ? '' : route}`);
         appContainer.innerHTML = views[route]();
         setActiveNav(route);
+        
         document.querySelectorAll('.back-main').forEach(btn => btn.addEventListener('click', () => navigateTo('home')));
+        
         if (route !== 'home') {
             gsap.fromTo('.fade-wrap', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
         } else {
-            gsap.fromTo('.floating', { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(0.5)" });
-            const phrases = ["свобода без границ", "генеративный ИИ", "нейросети на старте"];
+            // Анимация для главной: заголовок появляется, контент снизу с задержкой
+            gsap.fromTo('.floating', { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(0.5)" });
+            
+            // Текст с печатной машинкой
+            const phrases = ["свобода без границ", "генеративный интеллект", "нейросети на старте"];
             let i = 0, j = 0, currentPhrase = "", isDeleting = false;
             const typedSpan = document.getElementById('typedText');
             if (typedSpan) {
@@ -241,7 +252,24 @@
                 }
                 setTimeout(typeEffect, 300);
             }
+            
+            // Показываем контент ниже с плавным появлением при скролле
+            setTimeout(() => {
+                const contentBelow = document.getElementById('scrollContent');
+                if (contentBelow) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    observer.observe(contentBelow);
+                }
+            }, 100);
         }
+        
         if (route === 'chat') initChatInterface();
         ScrollTrigger.refresh();
     }
@@ -286,7 +314,7 @@
     navigateTo(initRoute);
 
     const styleAdd = document.createElement('style');
-    styleAdd.textContent = `.fade-in-msg { animation: fadeIn 0.15s ease; } @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } } .active-nav { color: #0ff; border-bottom: 2px solid #0ff; }`;
+    styleAdd.textContent = `.fade-in-msg { animation: fadeIn 0.15s ease; } @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } } .active-nav { color: #0ff; border-bottom: 2px solid #0ff; } .content-below { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; } .content-below.visible { opacity: 1; transform: translateY(0); }`;
     document.head.appendChild(styleAdd);
 </script>
 </body>
