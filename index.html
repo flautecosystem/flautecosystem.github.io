@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>FLAUT — AI ECOSYSTEM</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -41,8 +41,8 @@ radial-gradient(circle at top left,#0f172a 0%,transparent 30%),
 radial-gradient(circle at bottom right,#111827 0%,transparent 30%),
 #020617;
 color:white;
-overflow:hidden;
-height:100vh;
+overflow-x:hidden;
+min-height:100vh;
 }
 
 canvas{
@@ -50,6 +50,9 @@ position:fixed;
 inset:0;
 z-index:-3;
 opacity:.7;
+width:100%;
+height:100%;
+display:block;
 }
 
 .noise{
@@ -59,6 +62,7 @@ pointer-events:none;
 background-image:url('https://grainy-gradients.vercel.app/noise.svg');
 opacity:.04;
 z-index:-2;
+background-repeat:repeat;
 }
 
 .orb{
@@ -67,6 +71,7 @@ border-radius:50%;
 filter:blur(120px);
 opacity:.25;
 z-index:-1;
+pointer-events:none;
 }
 
 .orb1{
@@ -90,30 +95,150 @@ position:fixed;
 top:0;
 left:0;
 right:0;
-height:78px;
+height:70px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 34px;
-background:rgba(2,6,23,.65);
+padding:0 20px;
+background:rgba(2,6,23,.85);
 backdrop-filter:blur(24px);
 border-bottom:1px solid rgba(255,255,255,.06);
-z-index:100;
+z-index:1000;
+}
+
+@media (min-width: 1024px) {
+.nav{
+padding:0 34px;
+height:78px;
+}
 }
 
 .logo{
-font-size:34px;
+font-size:28px;
 font-weight:900;
-letter-spacing:-2px;
+letter-spacing:-1.5px;
 background:linear-gradient(135deg,#67e8f9,#38bdf8,#8b5cf6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+z-index:1001;
 }
 
+@media (min-width: 640px) {
+.logo{
+font-size:34px;
+letter-spacing:-2px;
+}
+}
+
+/* Гамбургер иконка */
+.hamburger{
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+width:30px;
+height:22px;
+cursor:pointer;
+z-index:1001;
+background:transparent;
+border:none;
+}
+
+.hamburger span{
+display:block;
+height:3px;
+width:100%;
+background:white;
+border-radius:4px;
+transition:0.3s ease;
+}
+
+.hamburger.active span:nth-child(1){
+transform:translateY(9.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2){
+opacity:0;
+}
+
+.hamburger.active span:nth-child(3){
+transform:translateY(-9.5px) rotate(-45deg);
+}
+
+/* Десктоп меню */
+.nav-links{
+display:none;
+gap:8px;
+}
+
+@media (min-width: 1024px) {
 .nav-links{
 display:flex;
-gap:14px;
 flex-wrap:wrap;
+}
+.hamburger{
+display:none;
+}
+}
+
+/* Мобильное выезжающее меню */
+.mobile-menu{
+position:fixed;
+top:0;
+right:-100%;
+width:80%;
+max-width:320px;
+height:100vh;
+background:rgba(2,6,23,.98);
+backdrop-filter:blur(32px);
+z-index:999;
+padding:100px 28px 40px;
+display:flex;
+flex-direction:column;
+gap:16px;
+transition:right 0.35s cubic-bezier(0.2,0.9,0.4,1.1);
+border-left:1px solid rgba(255,255,255,.1);
+box-shadow:-10px 0 40px rgba(0,0,0,0.5);
+}
+
+.mobile-menu.open{
+right:0;
+}
+
+.mobile-menu .mobile-nav-btn{
+background:transparent;
+border:none;
+color:#cbd5e1;
+font-weight:600;
+padding:14px 20px;
+border-radius:24px;
+cursor:pointer;
+transition:.3s;
+font-size:18px;
+text-align:left;
+width:100%;
+font-family:'Inter',sans-serif;
+}
+
+.mobile-menu .mobile-nav-btn:hover,
+.mobile-menu .mobile-nav-btn.active{
+background:rgba(103,232,249,.12);
+color:white;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+z-index:998;
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+backdrop-filter:blur(4px);
+}
+
+.overlay.active{
+opacity:1;
+visibility:visible;
 }
 
 .nav-btn{
@@ -121,28 +246,53 @@ background:transparent;
 border:none;
 color:#94a3b8;
 font-weight:600;
-padding:12px 18px;
-border-radius:16px;
+padding:8px 14px;
+border-radius:40px;
 cursor:pointer;
 transition:.3s;
+font-size:14px;
+}
+
+@media (min-width: 1280px) {
+.nav-btn{
+padding:12px 18px;
+font-size:15px;
+}
 }
 
 .nav-btn:hover,
 .nav-btn.active{
-background:rgba(255,255,255,.06);
+background:rgba(255,255,255,.1);
 color:white;
 }
 
 #app{
-height:100vh;
-overflow-y:auto;
+min-height:100vh;
+padding-top:70px;
+}
+
+@media (min-width: 1024px) {
+#app{
 padding-top:78px;
+}
 }
 
 .view{
 display:none;
-min-height:100vh;
-padding:60px 28px 120px;
+min-height:calc(100vh - 70px);
+padding:40px 20px 80px;
+}
+
+@media (min-width: 768px) {
+.view{
+padding:60px 32px 100px;
+}
+}
+
+@media (min-width: 1280px) {
+.view{
+padding:60px 48px 120px;
+}
 }
 
 .view.active{
@@ -151,70 +301,110 @@ animation:fade .5s ease;
 }
 
 .hero{
-min-height:85vh;
+min-height:80vh;
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
+padding:20px 0;
 }
 
 .hero-inner{
 max-width:1200px;
+width:100%;
+margin:0 auto;
+padding:0 16px;
 }
 
 .badge{
 display:inline-flex;
 align-items:center;
-gap:10px;
-padding:10px 18px;
+gap:8px;
+padding:6px 14px;
 background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
 border-radius:999px;
-margin-bottom:34px;
+margin-bottom:30px;
 backdrop-filter:blur(20px);
+font-size:13px;
+}
+
+@media (min-width: 640px) {
+.badge{
+padding:10px 18px;
+gap:10px;
+font-size:14px;
+margin-bottom:34px;
+}
 }
 
 .hero h1{
-font-size:clamp(58px,9vw,140px);
-line-height:.92;
+font-size:clamp(42px, 11vw, 140px);
+line-height:1;
 font-weight:900;
-letter-spacing:-6px;
-margin-bottom:28px;
+letter-spacing:-3px;
+margin-bottom:24px;
 background:linear-gradient(135deg,#fff,#7dd3fc,#67e8f9,#c084fc);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
+@media (min-width: 640px) {
+.hero h1{
+letter-spacing:-5px;
+margin-bottom:28px;
+}
+}
+
 .hero p{
 max-width:850px;
-margin:auto;
-font-size:clamp(18px,2vw,26px);
-line-height:1.7;
+margin:0 auto;
+font-size:clamp(16px, 4vw, 26px);
+line-height:1.6;
 color:#94a3b8;
+padding:0 8px;
+}
+
+@media (min-width: 768px) {
+.hero p{
+font-size:clamp(18px, 2vw, 26px);
+line-height:1.7;
+}
 }
 
 .hero-buttons{
-margin-top:44px;
+margin-top:40px;
 display:flex;
 justify-content:center;
-gap:20px;
+gap:16px;
 flex-wrap:wrap;
 }
 
 .btn{
-padding:18px 30px;
-border-radius:22px;
+padding:14px 26px;
+border-radius:28px;
 text-decoration:none;
 font-weight:700;
 transition:.35s;
 cursor:pointer;
 border:none;
+display:inline-block;
+font-size:15px;
+text-align:center;
+}
+
+@media (min-width: 640px) {
+.btn{
+padding:18px 30px;
+border-radius:32px;
+font-size:16px;
+}
 }
 
 .btn-primary{
 background:linear-gradient(135deg,#06b6d4,#8b5cf6);
 color:white;
-box-shadow:0 20px 100px rgba(6,182,212,.3);
+box-shadow:0 20px 100px rgba(6,182,212,.25);
 }
 
 .btn-primary:hover{
@@ -229,88 +419,137 @@ backdrop-filter:blur(20px);
 }
 
 .section-title{
-font-size:72px;
+font-size:clamp(38px, 8vw, 72px);
 font-weight:900;
-letter-spacing:-4px;
-margin-bottom:18px;
+letter-spacing:-3px;
+margin-bottom:16px;
 text-align:center;
 }
 
 .section-sub{
 max-width:760px;
-margin:0 auto 70px;
+margin:0 auto 50px;
 text-align:center;
-font-size:20px;
-line-height:1.7;
+font-size:clamp(16px, 3vw, 20px);
+line-height:1.6;
 color:#94a3b8;
+padding:0 12px;
+}
+
+@media (min-width: 768px) {
+.section-sub{
+margin-bottom:70px;
+}
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:28px;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:24px;
 max-width:1400px;
-margin:auto;
+margin:0 auto;
+}
+
+@media (min-width: 640px) {
+.grid{
+gap:28px;
+}
 }
 
 .card{
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 backdrop-filter:blur(24px);
-border-radius:34px;
-padding:34px;
+border-radius:28px;
+padding:28px 24px;
 position:relative;
 overflow:hidden;
 transition:.4s;
 }
 
+@media (min-width: 768px) {
+.card{
+padding:34px;
+border-radius:34px;
+}
+}
+
 .card::before{
 content:'';
 position:absolute;
-width:280px;
-height:280px;
+width:220px;
+height:220px;
 background:radial-gradient(circle,#06b6d4 0%,transparent 70%);
 opacity:.1;
-right:-120px;
-top:-120px;
+right:-80px;
+top:-80px;
 }
 
 .card:hover{
-transform:translateY(-10px);
-border-color:rgba(103,232,249,.25);
+transform:translateY(-8px);
+border-color:rgba(103,232,249,.35);
 box-shadow:0 30px 100px rgba(0,0,0,.35);
 }
 
 .card h3{
+font-size:28px;
+margin-bottom:14px;
+}
+
+@media (min-width: 768px) {
+.card h3{
 font-size:34px;
 margin-bottom:16px;
+}
 }
 
 .card p{
 color:#94a3b8;
-line-height:1.7;
+line-height:1.6;
+margin-bottom:24px;
+font-size:15px;
+}
+
+@media (min-width: 768px) {
+.card p{
 margin-bottom:30px;
+}
 }
 
 .metric{
-font-size:56px;
+font-size:48px;
 font-weight:900;
 background:linear-gradient(135deg,#67e8f9,#8b5cf6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
+@media (min-width: 768px) {
+.metric{
+font-size:56px;
+}
+}
+
 .enter-btn{
-margin-top:24px;
+margin-top:20px;
 width:100%;
-height:56px;
+height:52px;
 border:none;
-border-radius:18px;
-background:rgba(255,255,255,.06);
+border-radius:20px;
+background:rgba(255,255,255,.08);
 color:white;
 font-weight:700;
 cursor:pointer;
 transition:.3s;
+font-size:15px;
+}
+
+@media (min-width: 768px) {
+.enter-btn{
+height:56px;
+border-radius:24px;
+margin-top:24px;
+}
 }
 
 .enter-btn:hover{
@@ -319,103 +558,194 @@ background:linear-gradient(135deg,#06b6d4,#8b5cf6);
 
 .product-layout{
 max-width:1400px;
-margin:auto;
+margin:0 auto;
 display:grid;
-grid-template-columns:1.2fr .8fr;
+grid-template-columns:1fr;
+gap:28px;
+}
+
+@media (min-width: 1024px) {
+.product-layout{
+grid-template-columns:1.2fr 0.8fr;
 gap:32px;
+}
 }
 
 .panel{
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 backdrop-filter:blur(24px);
-border-radius:34px;
+border-radius:32px;
+padding:28px;
+}
+
+@media (min-width: 768px) {
+.panel{
 padding:34px;
+border-radius:34px;
+}
 }
 
 .big-title{
-font-size:82px;
-line-height:.95;
+font-size:clamp(44px, 9vw, 82px);
+line-height:1;
 font-weight:900;
-letter-spacing:-5px;
+letter-spacing:-4px;
+margin-bottom:20px;
+}
+
+@media (min-width: 768px) {
+.big-title{
 margin-bottom:24px;
+}
 }
 
 .product-text{
-font-size:20px;
-line-height:1.8;
+font-size:clamp(16px, 3vw, 20px);
+line-height:1.7;
 color:#94a3b8;
-margin-bottom:34px;
+margin-bottom:28px;
 }
 
 .mini-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:18px;
+gap:16px;
 margin-top:24px;
 }
 
+@media (min-width: 640px) {
+.mini-grid{
+gap:18px;
+}
+}
+
 .mini-card{
-padding:22px;
+padding:18px 16px;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.06);
 border-radius:22px;
 }
 
+@media (min-width: 640px) {
+.mini-card{
+padding:22px;
+}
+}
+
+.mini-card div:first-child{
+font-size:28px;
+font-weight:900;
+margin-bottom:6px;
+}
+
+@media (min-width: 640px) {
 .mini-card div:first-child{
 font-size:34px;
-font-weight:900;
 margin-bottom:8px;
+}
 }
 
 .chat-shell{
 max-width:1400px;
-margin:auto;
-height:82vh;
-display:grid;
-grid-template-columns:320px 1fr;
+margin:0 auto;
+height:auto;
+min-height:70vh;
+display:flex;
+flex-direction:column;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 backdrop-filter:blur(28px);
-border-radius:40px;
+border-radius:36px;
 overflow:hidden;
 }
 
+@media (min-width: 1024px) {
+.chat-shell{
+height:80vh;
+display:grid;
+grid-template-columns:320px 1fr;
+}
+}
+
+.sidebar{
+border-bottom:1px solid rgba(255,255,255,.06);
+padding:20px;
+background:rgba(255,255,255,.02);
+}
+
+@media (min-width: 1024px) {
 .sidebar{
 border-right:1px solid rgba(255,255,255,.06);
+border-bottom:none;
 padding:26px;
-background:rgba(255,255,255,.02);
+display:block;
+}
 }
 
 .chat-main{
 display:flex;
 flex-direction:column;
+flex:1;
 }
 
 .chat-top{
-height:90px;
+height:80px;
 border-bottom:1px solid rgba(255,255,255,.06);
 display:flex;
 align-items:center;
 justify-content:space-between;
+padding:0 20px;
+flex-wrap:wrap;
+}
+
+@media (min-width: 640px) {
+.chat-top{
 padding:0 30px;
+height:90px;
+}
 }
 
 .messages{
 flex:1;
 overflow-y:auto;
-padding:30px;
+padding:20px;
 display:flex;
 flex-direction:column;
+gap:14px;
+max-height:50vh;
+}
+
+@media (min-width: 768px) {
+.messages{
+padding:30px;
 gap:18px;
+max-height:60vh;
+}
+}
+
+@media (min-width: 1024px) {
+.messages{
+max-height:calc(80vh - 170px);
+}
 }
 
 .message{
+max-width:90%;
+padding:14px 18px;
+border-radius:24px;
+line-height:1.6;
+animation:fade .25s ease;
+font-size:14px;
+}
+
+@media (min-width: 640px) {
+.message{
 max-width:78%;
 padding:18px 22px;
-border-radius:26px;
-line-height:1.7;
-animation:fade .25s ease;
+border-radius:28px;
+font-size:15px;
+}
 }
 
 .user{
@@ -430,83 +760,106 @@ border:1px solid rgba(255,255,255,.08);
 }
 
 .chat-input-wrap{
-padding:24px;
+padding:16px 20px;
 border-top:1px solid rgba(255,255,255,.06);
 display:flex;
+gap:12px;
+background:rgba(2,6,23,.3);
+}
+
+@media (min-width: 768px) {
+.chat-input-wrap{
+padding:24px;
 gap:18px;
+}
 }
 
 .chat-input{
 flex:1;
-height:70px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.05);
-padding:0 24px;
+height:52px;
+border-radius:26px;
+border:1px solid rgba(255,255,255,.1);
+background:rgba(255,255,255,.06);
+padding:0 20px;
 color:white;
-font-size:16px;
+font-size:15px;
 outline:none;
 }
 
+@media (min-width: 768px) {
+.chat-input{
+height:70px;
+border-radius:36px;
+padding:0 24px;
+font-size:16px;
+}
+}
+
 .send-btn{
-width:76px;
+width:60px;
 border:none;
-border-radius:24px;
+border-radius:30px;
 background:linear-gradient(135deg,#06b6d4,#8b5cf6);
 color:white;
-font-size:22px;
+font-size:24px;
 font-weight:900;
 cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+@media (min-width: 768px) {
+.send-btn{
+width:76px;
+border-radius:36px;
+font-size:28px;
+}
 }
 
 .sidebar-card{
-padding:20px;
+padding:16px;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.06);
 border-radius:22px;
 margin-bottom:16px;
+word-break:break-word;
+}
+
+@media (min-width: 768px) {
+.sidebar-card{
+padding:20px;
+}
 }
 
 @keyframes fade{
 from{
 opacity:0;
-transform:translateY(10px);
+transform:translateY(8px);
 }
-
 to{
 opacity:1;
 transform:translateY(0);
 }
 }
 
-@media(max-width:980px){
-.product-layout{
-grid-template-columns:1fr;
+input::placeholder{
+color:#64748b;
 }
 
-.chat-shell{
-grid-template-columns:1fr;
-height:auto;
+.goto{
+cursor:pointer;
 }
 
-.sidebar{
-display:none;
+@media (max-width: 380px) {
+.card h3{
+font-size:24px;
 }
-
-.hero h1{
-letter-spacing:-3px;
-}
-
-.section-title{
-font-size:48px;
-}
-
 .big-title{
-font-size:54px;
+font-size:38px;
 }
-
-.nav-links{
-display:none;
+.section-title{
+font-size:32px;
 }
 }
 </style>
@@ -522,6 +875,14 @@ display:none;
 <nav class="nav">
 <div class="logo">FLAUT</div>
 
+<!-- Гамбургер для мобильных -->
+<button class="hamburger" id="hamburgerBtn" aria-label="Меню">
+<span></span>
+<span></span>
+<span></span>
+</button>
+
+<!-- Десктоп навигация -->
 <div class="nav-links">
 <button class="nav-btn active" data-view="home">HOME</button>
 <button class="nav-btn" data-view="ecosystem">ECOSYSTEM</button>
@@ -533,39 +894,45 @@ display:none;
 </div>
 </nav>
 
+<!-- Мобильное меню (выезжающее) -->
+<div class="mobile-menu" id="mobileMenu">
+<button class="mobile-nav-btn active" data-view="home">HOME</button>
+<button class="mobile-nav-btn" data-view="ecosystem">ECOSYSTEM</button>
+<button class="mobile-nav-btn" data-view="neuro">NEUROFLAUT</button>
+<button class="mobile-nav-btn" data-view="fad">FAD</button>
+<button class="mobile-nav-btn" data-view="skim">SKIM</button>
+<button class="mobile-nav-btn" data-view="chat">WEBCHAT</button>
+<button class="mobile-nav-btn" data-view="future">FUTURE</button>
+</div>
+<div class="overlay" id="overlay"></div>
+
 <div id="app">
 
 <section class="view active" id="home">
 <div class="hero">
 <div class="hero-inner">
-
 <div class="badge">
 <span>⚡</span>
 <span>NEXT GENERATION AI INFRASTRUCTURE</span>
 </div>
-
 <h1>
 THE FUTURE
 OF AI
 ECOSYSTEMS
 </h1>
-
 <p>
 FLAUT — это экосистема искусственного интеллекта нового поколения.
 Нейросети, AI-инфраструктура, интеллектуальные агенты,
 анализ медиа, автономные системы и цифровая операционная среда будущего.
 </p>
-
 <div class="hero-buttons">
 <button class="btn btn-primary goto" data-target="ecosystem">
 ENTER ECOSYSTEM
 </button>
-
 <button class="btn btn-secondary goto" data-target="chat">
 OPEN WEBCHAT
 </button>
 </div>
-
 </div>
 </div>
 </section>
@@ -576,9 +943,7 @@ OPEN WEBCHAT
 Интеллектуальная AI-инфраструктура нового поколения.
 Каждый модуль — часть глобальной нейросети FLAUT.
 </p>
-
 <div class="grid">
-
 <div class="card">
 <h3>NeuroFlaut</h3>
 <p>
@@ -586,15 +951,12 @@ OPEN WEBCHAT
 Память, reasoning, multimodal processing,
 анализ контента и автономные workflow.
 </p>
-
 <div class="metric">32K</div>
 <div style="color:#94a3b8">context memory</div>
-
 <button class="enter-btn goto" data-target="neuro">
 ENTER SYSTEM
 </button>
 </div>
-
 <div class="card">
 <h3>FlautAntiDeepfake</h3>
 <p>
@@ -602,15 +964,12 @@ ENTER SYSTEM
 Детектирование deepfake видео,
 голоса и AI-манипуляций.
 </p>
-
 <div class="metric">97.2%</div>
 <div style="color:#94a3b8">detection accuracy</div>
-
 <button class="enter-btn goto" data-target="fad">
 ENTER SYSTEM
 </button>
 </div>
-
 <div class="card">
 <h3>FlautSkim</h3>
 <p>
@@ -618,67 +977,36 @@ ENTER SYSTEM
 YouTube, документы, лекции,
 подкасты и semantic extraction.
 </p>
-
 <div class="metric">180/s</div>
 <div style="color:#94a3b8">token processing</div>
-
 <button class="enter-btn goto" data-target="skim">
 ENTER SYSTEM
 </button>
 </div>
-
 </div>
 </section>
 
 <section class="view" id="neuro">
 <div class="product-layout">
-
 <div class="panel">
 <div class="badge">🧠 AI CORE SYSTEM</div>
-
-<h2 class="big-title">
-NeuroFlaut
-</h2>
-
+<h2 class="big-title">NeuroFlaut</h2>
 <p class="product-text">
 NeuroFlaut — интеллектуальная AI-система нового поколения.
 Память, reasoning engine, multimodal intelligence,
 анализ контента, web tools, autonomous workflows
 и персонализированная neural memory architecture.
 </p>
-
-<button class="btn btn-primary">
-OPEN AI CORE
-</button>
-
+<button class="btn btn-primary">OPEN AI CORE</button>
 <div class="mini-grid">
-<div class="mini-card">
-<div>32K</div>
-<span>Context memory</span>
-</div>
-
-<div class="mini-card">
-<div>1.2s</div>
-<span>Average response</span>
-</div>
-
-<div class="mini-card">
-<div>89%</div>
-<span>RAG precision</span>
-</div>
-
-<div class="mini-card">
-<div>24/7</div>
-<span>Neural uptime</span>
+<div class="mini-card"><div>32K</div><span>Context memory</span></div>
+<div class="mini-card"><div>1.2s</div><span>Average response</span></div>
+<div class="mini-card"><div>89%</div><span>RAG precision</span></div>
+<div class="mini-card"><div>24/7</div><span>Neural uptime</span></div>
 </div>
 </div>
-</div>
-
 <div class="panel">
-<h3 style="font-size:36px;margin-bottom:26px;">
-Capabilities
-</h3>
-
+<h3 style="font-size:clamp(28px,5vw,36px);margin-bottom:20px;">Capabilities</h3>
 <div class="sidebar-card">✔ Advanced reasoning</div>
 <div class="sidebar-card">✔ Memory system</div>
 <div class="sidebar-card">✔ Voice intelligence</div>
@@ -688,109 +1016,56 @@ Capabilities
 <div class="sidebar-card">✔ Tool usage</div>
 <div class="sidebar-card">✔ Autonomous agents</div>
 </div>
-
 </div>
 </section>
 
 <section class="view" id="fad">
 <div class="product-layout">
-
 <div class="panel">
 <div class="badge">🛡 SECURITY AI</div>
-
-<h2 class="big-title">
-FlautAnti
-Deepfake
-</h2>
-
+<h2 class="big-title">FlautAnti<br>Deepfake</h2>
 <p class="product-text">
 Система анализа синтетических медиа.
 Видео, голос, нейросетевые манипуляции,
 AI fingerprinting и neural authenticity detection.
 </p>
-
 <div class="mini-grid">
-<div class="mini-card">
-<div>97.2%</div>
-<span>Detection rate</span>
-</div>
-
-<div class="mini-card">
-<div>124ms</div>
-<span>Inference</span>
-</div>
-
-<div class="mini-card">
-<div>1.8%</div>
-<span>False positives</span>
-</div>
-
-<div class="mini-card">
-<div>LIVE</div>
-<span>Realtime scan</span>
+<div class="mini-card"><div>97.2%</div><span>Detection rate</span></div>
+<div class="mini-card"><div>124ms</div><span>Inference</span></div>
+<div class="mini-card"><div>1.8%</div><span>False positives</span></div>
+<div class="mini-card"><div>LIVE</div><span>Realtime scan</span></div>
 </div>
 </div>
-</div>
-
 <div class="panel">
-<h3 style="font-size:36px;margin-bottom:26px;">
-Detection Layers
-</h3>
-
+<h3 style="font-size:clamp(28px,5vw,36px);margin-bottom:20px;">Detection Layers</h3>
 <div class="sidebar-card">✔ Video manipulation analysis</div>
 <div class="sidebar-card">✔ Voice authenticity scanner</div>
 <div class="sidebar-card">✔ Neural fingerprinting</div>
 <div class="sidebar-card">✔ Synthetic frame detection</div>
 <div class="sidebar-card">✔ Enterprise AI security</div>
 </div>
-
 </div>
 </section>
 
 <section class="view" id="skim">
 <div class="product-layout">
-
 <div class="panel">
 <div class="badge">📄 AI SUMMARIZATION</div>
-
-<h2 class="big-title">
-FlautSkim
-</h2>
-
+<h2 class="big-title">FlautSkim</h2>
 <p class="product-text">
 AI engine для интеллектуального сжатия информации.
 YouTube, документы, подкасты, лекции,
 voice transcripts и semantic indexing.
 </p>
-
 <div class="mini-grid">
-<div class="mini-card">
-<div>180/s</div>
-<span>Token speed</span>
-</div>
-
-<div class="mini-card">
-<div>8:1</div>
-<span>Compression</span>
-</div>
-
-<div class="mini-card">
-<div>84%</div>
-<span>ROUGE score</span>
-</div>
-
-<div class="mini-card">
-<div>8</div>
-<span>Languages</span>
+<div class="mini-card"><div>180/s</div><span>Token speed</span></div>
+<div class="mini-card"><div>8:1</div><span>Compression</span></div>
+<div class="mini-card"><div>84%</div><span>ROUGE score</span></div>
+<div class="mini-card"><div>8</div><span>Languages</span></div>
 </div>
 </div>
-</div>
-
 <div class="panel">
-<h3 style="font-size:36px;margin-bottom:26px;">
-Modules
-</h3>
-
+<h3 style="font-size:clamp(28px,5vw,36px);margin-bottom:20px;">Modules</h3>
 <div class="sidebar-card">✔ YouTube AI summary</div>
 <div class="sidebar-card">✔ Podcast summarization</div>
 <div class="sidebar-card">✔ Lecture compression</div>
@@ -798,7 +1073,6 @@ Modules
 <div class="sidebar-card">✔ AI note generation</div>
 <div class="sidebar-card">✔ Knowledge indexing</div>
 </div>
-
 </div>
 </section>
 
@@ -807,78 +1081,39 @@ Modules
 <p class="section-sub">
 NeuroFlaut AI interface нового поколения.
 </p>
-
 <div class="chat-shell">
-
 <div class="sidebar">
 <div class="sidebar-card">
 <div style="font-weight:800;margin-bottom:10px;">NeuroFlaut</div>
-<div style="color:#94a3b8;font-size:14px;line-height:1.6;">
-AI operating interface
+<div style="color:#94a3b8;font-size:14px;line-height:1.6;">AI operating interface</div>
 </div>
-</div>
-
 <div class="sidebar-card">
 <div style="font-weight:700;margin-bottom:8px;">AI Features</div>
 <div style="color:#94a3b8;font-size:14px;line-height:1.8;">
-• Memory<br>
-• Reasoning<br>
-• Multimodal<br>
-• Web tools<br>
-• AI workflows
+• Memory<br>• Reasoning<br>• Multimodal<br>• Web tools<br>• AI workflows
 </div>
 </div>
-
 <div class="sidebar-card">
-<input
-type="password"
-id="apiKey"
-placeholder="OpenRouter API Key"
-style="width:100%;height:52px;border:none;background:rgba(255,255,255,.06);border-radius:14px;padding:0 16px;color:white;outline:none;"
-/>
-
-<button
-id="saveKey"
-class="btn btn-primary"
-style="width:100%;margin-top:12px;height:52px;padding:0;"
->
-SAVE KEY
-</button>
+<input type="password" id="apiKey" placeholder="OpenRouter API Key" style="width:100%;height:48px;border:none;background:rgba(255,255,255,.08);border-radius:16px;padding:0 16px;color:white;outline:none;font-size:14px;" />
+<button id="saveKey" class="btn btn-primary" style="width:100%;margin-top:12px;height:48px;padding:0;font-size:14px;">SAVE KEY</button>
 </div>
 </div>
-
 <div class="chat-main">
-
 <div class="chat-top">
 <div>
-<div style="font-size:22px;font-weight:800;">
-NeuroFlaut Core
+<div style="font-size:clamp(18px,4vw,22px);font-weight:800;">NeuroFlaut Core</div>
+<div style="color:#94a3b8;margin-top:4px;font-size:13px;">OpenRouter AI Interface</div>
 </div>
-<div style="color:#94a3b8;margin-top:4px;">
-OpenRouter AI Interface
-</div>
-</div>
-
-<div style="display:flex;align-items:center;gap:12px;">
-<div style="width:12px;height:12px;border-radius:50%;background:#22c55e;"></div>
-<div style="color:#22c55e;">ONLINE</div>
+<div style="display:flex;align-items:center;gap:8px;">
+<div style="width:10px;height:10px;border-radius:50%;background:#22c55e;"></div>
+<div style="color:#22c55e;font-size:13px;">ONLINE</div>
 </div>
 </div>
-
 <div class="messages" id="messages"></div>
-
 <div class="chat-input-wrap">
-<input
-class="chat-input"
-id="messageInput"
-placeholder="Напиши сообщение..."
-/>
-
-<button class="send-btn" id="sendBtn">
-→
-</button>
+<input class="chat-input" id="messageInput" placeholder="Напиши сообщение..." />
+<button class="send-btn" id="sendBtn">→</button>
 </div>
-
 </div>
 </div>
 </section>
@@ -888,244 +1123,226 @@ placeholder="Напиши сообщение..."
 <p class="section-sub">
 Следующий этап развития экосистемы FLAUT.
 </p>
-
 <div class="grid">
-<div class="card">
-<h3>FlautOS</h3>
-<p>
-Полноценная AI operating system нового поколения.
-</p>
-</div>
-
-<div class="card">
-<h3>AI Agents</h3>
-<p>
-Автономные интеллектуальные workflow systems.
-</p>
-</div>
-
-<div class="card">
-<h3>Neural Cloud</h3>
-<p>
-Инфраструктура памяти и AI computation.
-</p>
-</div>
+<div class="card"><h3>FlautOS</h3><p>Полноценная AI operating system нового поколения.</p></div>
+<div class="card"><h3>AI Agents</h3><p>Автономные интеллектуальные workflow systems.</p></div>
+<div class="card"><h3>Neural Cloud</h3><p>Инфраструктура памяти и AI computation.</p></div>
 </div>
 </section>
-
 </div>
 
 <script>
-
-// particles
-
+// responsive canvas particles
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
+let w, h;
 
-let w,h;
-
-function resize(){
+function resizeCanvas() {
 w = canvas.width = window.innerWidth;
 h = canvas.height = window.innerHeight;
 }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-window.addEventListener('resize',resize);
-resize();
-
-const particles=[];
-
-for(let i=0;i<140;i++){
+const particles = [];
+for(let i = 0; i < 120; i++) {
 particles.push({
-x:Math.random()*w,
-y:Math.random()*h,
-r:Math.random()*2,
-vx:(Math.random()-.5)*.25,
-vy:(Math.random()-.5)*.25
+x: Math.random() * w,
+y: Math.random() * h,
+r: Math.random() * 2,
+vx: (Math.random() - 0.5) * 0.2,
+vy: (Math.random() - 0.5) * 0.2
 });
 }
 
-function animate(){
-ctx.clearRect(0,0,w,h);
-
-particles.forEach(p=>{
+function animateParticles() {
+if(!ctx) return;
+ctx.clearRect(0, 0, w, h);
+particles.forEach(p => {
 p.x += p.vx;
 p.y += p.vy;
-
-if(p.x<0)p.x=w;
-if(p.x>w)p.x=0;
-if(p.y<0)p.y=h;
-if(p.y>h)p.y=0;
-
+if(p.x < 0) p.x = w;
+if(p.x > w) p.x = 0;
+if(p.y < 0) p.y = h;
+if(p.y > h) p.y = 0;
 ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle='rgba(103,232,249,.8)';
+ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+ctx.fillStyle = 'rgba(103,232,249,.7)';
 ctx.fill();
 });
-
-requestAnimationFrame(animate);
+requestAnimationFrame(animateParticles);
 }
+animateParticles();
 
-animate();
-
-// SPA navigation
-
+// --- Универсальная навигация (десктоп + мобильное меню) ---
 const views = document.querySelectorAll('.view');
-const navBtns = document.querySelectorAll('.nav-btn');
+const desktopBtns = document.querySelectorAll('.nav-btn');
+const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
 const gotoBtns = document.querySelectorAll('.goto');
 
-function openView(id){
-views.forEach(v=>v.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+// Функция открытия вида и обновления активных кнопок в обоих меню
+function openView(id) {
+// Скрыть мобильное меню и оверлей при клике (для лучшего UX на телефоне)
+closeMobileMenu();
 
-navBtns.forEach(btn=>btn.classList.remove('active'));
+views.forEach(v => v.classList.remove('active'));
+const targetView = document.getElementById(id);
+if(targetView) targetView.classList.add('active');
 
-const currentBtn = document.querySelector(`[data-view="${id}"]`);
-if(currentBtn) currentBtn.classList.add('active');
+// Обновить активные кнопки в десктоп меню
+desktopBtns.forEach(btn => {
+if(btn.dataset.view === id) {
+btn.classList.add('active');
+} else {
+btn.classList.remove('active');
+}
+});
 
-window.scrollTo({top:0,behavior:'smooth'});
+// Обновить активные кнопки в мобильном меню
+mobileBtns.forEach(btn => {
+if(btn.dataset.view === id) {
+btn.classList.add('active');
+} else {
+btn.classList.remove('active');
+}
+});
+
+window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-navBtns.forEach(btn=>{
-btn.onclick=()=> openView(btn.dataset.view);
+// Назначить обработчики для десктопных кнопок
+desktopBtns.forEach(btn => {
+btn.onclick = () => openView(btn.dataset.view);
 });
 
-gotoBtns.forEach(btn=>{
-btn.onclick=()=> openView(btn.dataset.target);
+// Назначить обработчики для мобильных кнопок
+mobileBtns.forEach(btn => {
+btn.onclick = () => openView(btn.dataset.view);
 });
 
-// chat
+// Кнопки goto внутри карточек
+gotoBtns.forEach(btn => {
+btn.onclick = () => openView(btn.dataset.target);
+});
 
-const messages = document.getElementById('messages');
-const input = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
+// --- Мобильное меню (гамбургер) ---
+const hamburger = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const overlay = document.getElementById('overlay');
+
+function closeMobileMenu() {
+mobileMenu.classList.remove('open');
+overlay.classList.remove('active');
+if(hamburger) hamburger.classList.remove('active');
+}
+
+function openMobileMenu() {
+mobileMenu.classList.add('open');
+overlay.classList.add('active');
+if(hamburger) hamburger.classList.add('active');
+}
+
+if(hamburger) {
+hamburger.addEventListener('click', (e) => {
+e.stopPropagation();
+if(mobileMenu.classList.contains('open')) {
+closeMobileMenu();
+} else {
+openMobileMenu();
+}
+});
+}
+
+// Закрыть меню при клике на оверлей
+if(overlay) {
+overlay.addEventListener('click', closeMobileMenu);
+}
+
+// Закрыть меню при ресайзе окна >1024px (на случай, если пользователь развернул планшет)
+window.addEventListener('resize', () => {
+if(window.innerWidth >= 1024) {
+closeMobileMenu();
+}
+});
+
+// --- Chat Logic (без изменений) ---
+const messagesDiv = document.getElementById('messages');
+const inputMsg = document.getElementById('messageInput');
+const sendBtnChat = document.getElementById('sendBtn');
 const apiKeyInput = document.getElementById('apiKey');
 const saveKeyBtn = document.getElementById('saveKey');
 
-let history = [
-{
-role:'system',
-content:'Ты NeuroFlaut — AI ассистент экосистемы FLAUT.'
-}
-];
+let history = [{ role: 'system', content: 'Ты NeuroFlaut — AI ассистент экосистемы FLAUT.' }];
+const saved = localStorage.getItem('openrouter_key');
+if(saved) apiKeyInput.value = saved;
 
-const savedKey = localStorage.getItem('openrouter_key');
-if(savedKey){
-apiKeyInput.value = savedKey;
-}
-
-saveKeyBtn.onclick = ()=>{
-localStorage.setItem('openrouter_key',apiKeyInput.value);
+saveKeyBtn.onclick = () => {
+localStorage.setItem('openrouter_key', apiKeyInput.value);
 alert('API key сохранён');
-}
+};
 
-function addMessage(text,type='bot'){
+function addMessage(text, type = 'bot') {
 const div = document.createElement('div');
 div.className = `message ${type}`;
-div.innerHTML = text.replace(/\n/g,'<br>');
-messages.appendChild(div);
-messages.scrollTop = messages.scrollHeight;
+div.innerHTML = text.replace(/\n/g, '<br>');
+messagesDiv.appendChild(div);
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
-
 addMessage('Добро пожаловать в NeuroFlaut. AI core online.');
 
-async function sendMessage(){
-
-const text = input.value.trim();
+async function sendMessage() {
+const text = inputMsg.value.trim();
 if(!text) return;
-
 const apiKey = apiKeyInput.value.trim();
-
-if(!apiKey){
-addMessage('Вставь OpenRouter API key','bot');
+if(!apiKey) {
+addMessage('Вставь OpenRouter API key', 'bot');
 return;
 }
-
-addMessage(text,'user');
-input.value='';
-
-history.push({
-role:'user',
-content:text
-});
-
+addMessage(text, 'user');
+inputMsg.value = '';
+history.push({ role: 'user', content: text });
 const loading = document.createElement('div');
-loading.className='message bot';
-loading.innerHTML='NeuroFlaut думает...';
-messages.appendChild(loading);
-
-try{
-
-const response = await fetch('https://openrouter.ai/api/v1/chat/completions',{
-method:'POST',
-headers:{
-'Authorization':`Bearer ${apiKey}`,
-'Content-Type':'application/json',
-'HTTP-Referer':window.location.origin,
-'X-Title':'FLAUT ECOSYSTEM'
+loading.className = 'message bot';
+loading.innerHTML = 'NeuroFlaut думает...';
+messagesDiv.appendChild(loading);
+try {
+const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+method: 'POST',
+headers: {
+'Authorization': `Bearer ${apiKey}`,
+'Content-Type': 'application/json',
+'HTTP-Referer': window.location.origin,
+'X-Title': 'FLAUT ECOSYSTEM'
 },
-body:JSON.stringify({
-model:'openai/gpt-4o-mini',
-messages:history,
-max_tokens:700,
-temperature:.7
+body: JSON.stringify({
+model: 'openai/gpt-4o-mini',
+messages: history,
+max_tokens: 700,
+temperature: 0.7
 })
 });
-
-const data = await response.json();
+const data = await res.json();
 loading.remove();
-
-if(data.error){
-addMessage('Ошибка API: '+data.error.message,'bot');
+if(data.error) {
+addMessage('Ошибка API: ' + data.error.message, 'bot');
 return;
 }
-
 const reply = data.choices?.[0]?.message?.content || 'Нет ответа';
-
-history.push({
-role:'assistant',
-content:reply
-});
-
-addMessage(reply,'bot');
-
-}catch(err){
+history.push({ role: 'assistant', content: reply });
+addMessage(reply, 'bot');
+} catch(err) {
 loading.remove();
-addMessage('Ошибка подключения к AI системе','bot');
-console.error(err);
+addMessage('Ошибка подключения к AI системе', 'bot');
 }
 }
+sendBtnChat.onclick = sendMessage;
+inputMsg.addEventListener('keydown', e => { if(e.key === 'Enter') sendMessage(); });
 
-sendBtn.onclick = sendMessage;
-
-input.addEventListener('keydown',e=>{
-if(e.key==='Enter') sendMessage();
-});
-
-// intro animation
-
-gsap.from('.hero h1',{
-y:80,
-opacity:0,
-duration:1.2,
-ease:'power4.out'
-});
-
-gsap.from('.hero p',{
-y:40,
-opacity:0,
-duration:1,
-delay:.3
-});
-
-gsap.from('.btn',{
-y:20,
-opacity:0,
-stagger:.15,
-delay:.5
-});
-
+// GSAP intro
+gsap.from('.hero h1', { y: 70, opacity: 0, duration: 1.1, ease: 'power4.out' });
+gsap.from('.hero p', { y: 40, opacity: 0, duration: 0.9, delay: 0.2 });
+gsap.from('.btn', { y: 20, opacity: 0, stagger: 0.12, delay: 0.45 });
 </script>
 
 </body>
 </html>
-```
